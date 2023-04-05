@@ -23,7 +23,7 @@ class DialogBox extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.white,
       content: Container(
-        height: 160,
+        height: 180,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,26 +36,65 @@ class DialogBox extends StatelessWidget {
                 hintText: "Add a new task",
               ),
             ),
-            MyButton(
-              text: "choose time",
-              onPressed: chooseTime,
-              color: Color.fromARGB(255, 0, 0, 0),
-            ),
-
+            // ColorChooser(),
             // buttons -> save + cancel
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 // save button
-                MyButton(text: "Save", onPressed: onSave,color:Color.fromARGB(255, 67, 132, 51)),
-
+                MyButton(
+                  text: "choose time",
+                  onPressed: chooseTime,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  textColor: Color.fromARGB(255, 255, 255, 255),
+                ),
                 const SizedBox(width: 8),
+                MyButton(
+                    text: "Save",
+                    onPressed: onSave,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    textColor: Color.fromARGB(255, 0, 0, 0)),
 
                 // cancel button
-                MyButton(text: "Cancel", onPressed: onCancel,color: Color.fromRGBO(255, 33, 33, 1),),
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ColorChooser extends StatelessWidget {
+  final ValueChanged<Color>? onColorSelected;
+
+  const ColorChooser({super.key, this.onColorSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildColorButton(Color.fromARGB(255, 243, 25, 10), context,1),
+        SizedBox(width: 10),
+        _buildColorButton(Color.fromARGB(255, 244, 91, 88), context,2),
+        SizedBox(width: 10),
+        _buildColorButton(Color.fromARGB(255, 255, 205, 210), context,3),
+      ],
+    );
+  }
+
+  Widget _buildColorButton(Color color, BuildContext context,int choosed) {
+    return GestureDetector(
+      onTap: () {
+        print(choosed);
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
         ),
       ),
     );

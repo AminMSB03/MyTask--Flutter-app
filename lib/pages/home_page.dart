@@ -6,6 +6,8 @@ import '../data/database.dart';
 import '../util/dialog_box.dart';
 import '../util/notification.dart';
 import '../util/todo_tile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -55,15 +57,22 @@ class _HomePageState extends State<HomePage> {
             title: "It's time to do your task!",
             body: _controller.text,
             scheduledNotificationDateTime: scheduleTime);
+    final userRef = FirebaseFirestore.instance.collection('tasks').doc();
+    userRef.set({
+      'task':  _controller.text,
+      'time': scheduleTime.toString(),
+    });
     setState(() {
       db.toDoList.add([_controller.text, false, scheduleTime]);
       _controller.clear();
     });
     Navigator.of(context).pop();
     db.updateDataBase();
+
+    
   }
 
-  // create a new task
+  // create a new task (show the dailog)
   void createNewTask() {
     showDialog(
       context: context,
@@ -127,4 +136,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
